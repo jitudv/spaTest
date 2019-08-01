@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
 import { FutterComponent } from './futter/futter.component';
+import { HeaderComponent } from './header/header.component';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [HeaderComponent, FutterComponent],
   imports: [
-    CommonModule
+    CommonModule,
+
   ]
 })
 export class LayoutModule { }
