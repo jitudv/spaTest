@@ -1,20 +1,124 @@
-spring:
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: my-group
-      auto-offset-reset: earliest
-      key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      properties:
-        specific.avro.reader: true
-      bootstrap-servers: localhost:9092
-      listener:
-        ack-mode: MANUAL_IMMEDIATE  # Acknowledge mode (MANUAL_IMMEDIATE, MANUAL, or RECORD)
-        concurrency: 1  # Number of listener threads
-    producer:
-      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-    properties:
-      schema.registry.url: http://localhost:8081
-      # Other Kafka and Avro producer/consumer properties
+{
+  "type": "record",
+  "name": "Patient",
+  "fields": [
+    {"name": "resourceType", "type": "string"},
+    {"name": "id", "type": "string"},
+    {"name": "meta", "type": {
+      "type": "record",
+      "name": "Meta",
+      "fields": [
+        {"name": "profile", "type": {"type": "array", "items": "string"}}
+      ]
+    }},
+    {"name": "text", "type": {
+      "type": "record",
+      "name": "Text",
+      "fields": [
+        {"name": "status", "type": "string"},
+        {"name": "div", "type": "string"}
+      ]
+    }},
+    {"name": "extension", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "Extension",
+        "fields": [
+          {"name": "extension", "type": {"type": "array", "items": "Extension"}},
+          {"name": "url", "type": "string"}
+        ]
+      }
+    }},
+    {"name": "identifier", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "Identifier",
+        "fields": [
+          {"name": "use", "type": "string"},
+          {"name": "type", "type": {
+            "type": "record",
+            "name": "Type",
+            "fields": [
+              {"name": "coding", "type": {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "Coding",
+                  "fields": [
+                    {"name": "system", "type": "string"},
+                    {"name": "code", "type": "string"},
+                    {"name": "display", "type": "string"}
+                  ]
+                }
+              }},
+              {"name": "text", "type": "string"}
+            ]
+          }},
+          {"name": "system", "type": "string"},
+          {"name": "value", "type": "string"}
+        ]
+      }
+    }},
+    {"name": "active", "type": "boolean"},
+    {"name": "name", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "Name",
+        "fields": [
+          {"name": "use", "type": "string"},
+          {"name": "family", "type": "string"},
+          {"name": "given", "type": {"type": "array", "items": "string"}},
+          {"name": "suffix", "type": {"type": "array", "items": "string"}},
+          {"name": "period", "type": {
+            "type": "record",
+            "name": "Period",
+            "fields": [
+              {"name": "start", "type": "string"},
+              {"name": "end", "type": "string"}
+            ]
+          }}
+        ]
+      }
+    }},
+    {"name": "telecom", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "Telecom",
+        "fields": [
+          {"name": "system", "type": "string"},
+          {"name": "value", "type": "string"},
+          {"name": "use", "type": "string"}
+        ]
+      }
+    }},
+    {"name": "gender", "type": "string"},
+    {"name": "birthDate", "type": "string"},
+    {"name": "address", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "Address",
+        "fields": [
+          {"name": "use", "type": "string"},
+          {"name": "line", "type": {"type": "array", "items": "string"}},
+          {"name": "city", "type": "string"},
+          {"name": "state", "type": "string"},
+          {"name": "postalCode", "type": "string"},
+          {"name": "country", "type": "string"},
+          {"name": "period", "type": {
+            "type": "record",
+            "name": "Period",
+            "fields": [
+              {"name": "start", "type": "string"},
+              {"name": "end", "type": "string"}
+            ]
+          }}
+        ]
+      }
+    }}
+  ]
+}
