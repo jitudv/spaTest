@@ -1,124 +1,93 @@
-{
-  "type": "record",
-  "name": "Patient",
-  "fields": [
-    {"name": "resourceType", "type": "string"},
-    {"name": "id", "type": "string"},
-    {"name": "meta", "type": {
-      "type": "record",
-      "name": "Meta",
-      "fields": [
-        {"name": "profile", "type": {"type": "array", "items": "string"}}
-      ]
-    }},
-    {"name": "text", "type": {
-      "type": "record",
-      "name": "Text",
-      "fields": [
-        {"name": "status", "type": "string"},
-        {"name": "div", "type": "string"}
-      ]
-    }},
-    {"name": "extension", "type": {
-      "type": "array",
-      "items": {
-        "type": "record",
-        "name": "Extension",
-        "fields": [
-          {"name": "extension", "type": {"type": "array", "items": "Extension"}},
-          {"name": "url", "type": "string"}
-        ]
-      }
-    }},
-    {"name": "identifier", "type": {
-      "type": "array",
-      "items": {
-        "type": "record",
-        "name": "Identifier",
-        "fields": [
-          {"name": "use", "type": "string"},
-          {"name": "type", "type": {
-            "type": "record",
-            "name": "Type",
-            "fields": [
-              {"name": "coding", "type": {
-                "type": "array",
-                "items": {
-                  "type": "record",
-                  "name": "Coding",
-                  "fields": [
-                    {"name": "system", "type": "string"},
-                    {"name": "code", "type": "string"},
-                    {"name": "display", "type": "string"}
-                  ]
-                }
-              }},
-              {"name": "text", "type": "string"}
-            ]
-          }},
-          {"name": "system", "type": "string"},
-          {"name": "value", "type": "string"}
-        ]
-      }
-    }},
-    {"name": "active", "type": "boolean"},
-    {"name": "name", "type": {
-      "type": "array",
-      "items": {
-        "type": "record",
-        "name": "Name",
-        "fields": [
-          {"name": "use", "type": "string"},
-          {"name": "family", "type": "string"},
-          {"name": "given", "type": {"type": "array", "items": "string"}},
-          {"name": "suffix", "type": {"type": "array", "items": "string"}},
-          {"name": "period", "type": {
-            "type": "record",
-            "name": "Period",
-            "fields": [
-              {"name": "start", "type": "string"},
-              {"name": "end", "type": "string"}
-            ]
-          }}
-        ]
-      }
-    }},
-    {"name": "telecom", "type": {
-      "type": "array",
-      "items": {
-        "type": "record",
-        "name": "Telecom",
-        "fields": [
-          {"name": "system", "type": "string"},
-          {"name": "value", "type": "string"},
-          {"name": "use", "type": "string"}
-        ]
-      }
-    }},
-    {"name": "gender", "type": "string"},
-    {"name": "birthDate", "type": "string"},
-    {"name": "address", "type": {
-      "type": "array",
-      "items": {
-        "type": "record",
-        "name": "Address",
-        "fields": [
-          {"name": "use", "type": "string"},
-          {"name": "line", "type": {"type": "array", "items": "string"}},
-          {"name": "city", "type": "string"},
-          {"name": "state", "type": "string"},
-          {"name": "postalCode", "type": "string"},
-          {"name": "country", "type": "string"},
-          {"name": "period", "type": {
-            "type": "record",
-            "name": "Period",
-            "fields": [
-              {"name": "start", "type": "string"},
-              {"name": "end", "type": "string"}
-            ]
-          }}
-        ]
-      }
-    }}
-  ]
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.jay.test</groupId>
+	<artifactId>kafka_test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>kafka_test</name>
+	<description>kafka test</description>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.0</spring-cloud.version>
+		<avro.version>1.10.2</avro.version>
+	</properties>
+	<dependencies>
+		<!-- Add Avro dependencies -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+
+		<!-- Other dependencies remain unchanged -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-test-binder</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Add Avro plugin -->
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>${avro.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+							<outputDirectory>${project.build.directory}/generated-sources/avro</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
